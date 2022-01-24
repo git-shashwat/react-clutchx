@@ -4,7 +4,7 @@ import IndiaFlag from "../../assets/images/India.png";
 
 const Footer: React.FC = () => {
   return (
-    <footer className='flex flex-col bg-black-12 px-8 pb-2 pt-4 md:px-40'>
+    <footer className='flex flex-col bg-black-12 px-8 py-4 md:px-40'>
       <div className='flex flex-col items-center flex-wrap justify-around md:flex-row'>
         <img src={JumbotailLogo} alt='logo' className='mb-4 h-11 md:mb-0' />
         <div className='mb-4 flex flex-col md:gap-y-4 md:mb-0'>

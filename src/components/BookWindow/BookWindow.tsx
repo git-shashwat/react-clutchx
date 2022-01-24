@@ -74,6 +74,7 @@ const BookWindow: React.FC = () => {
                 {searchResults.map((result) => (
                   <BookOverview
                     key={result.id}
+                    id={result.id}
                     volumeInfo={result.volumeInfo}
                   />
                 ))}
