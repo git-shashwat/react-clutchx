@@ -70,7 +70,7 @@ const BookWindow: React.FC = () => {
                   We have found {searchResults.length} books for “{searchTerm}”
                 </h5>
               </div>
-              <div className='grid grid-cols-2 gap-x-8 mt-9 gap-y-5'>
+              <div className='grid grid-cols-3 gap-x-8 mt-9 gap-y-5'>
                 {searchResults.map((result) => (
                   <BookOverview
                     key={result.id}
