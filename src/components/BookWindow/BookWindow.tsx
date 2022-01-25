@@ -1,32 +1,26 @@
+import { connect } from "react-redux";
 import React from "react";
-import { Book } from "../../types/searchResults";
+import { Dispatch } from "redux";
+import {
+  fetchBooksListStart,
+  setSearchTerm,
+} from "../../redux/books/books.actions";
 import BookOverview from "../BookOverview/BookOverview";
+import { RootState } from "../../redux/root/root.reducer";
+import { IBookWindowProps } from "./BookWindow.types";
 
-const BookWindow: React.FC = () => {
+const BookWindow: React.FC<IBookWindowProps> = ({
+  books,
+  fetchBooksListStart,
+  setSearchTerm,
+}) => {
   const [searchText, setSearchText] = React.useState("");
-  const [searchTerm, setSearchTerm] = React.useState("");
-  const [searchResults, setSearchResults] = React.useState<Book[]>([]);
-  const [isFetching, setIsFetching] = React.useState(false);
-  const [apiError, setApiError] = React.useState<string | null>(null);
 
   const handleBookRequest = (searchTerm: string) => {
     if (searchTerm.length > 0) {
       setSearchTerm(searchTerm);
 
-      // fetch request to google books api
-      setIsFetching(true);
-      fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setSearchResults(data.items || []);
-        })
-        .catch((err) => {
-          setSearchResults([]);
-          setApiError(err.message);
-        })
-        .finally(() => {
-          setIsFetching(false);
-        });
+      fetchBooksListStart(searchTerm);
     }
   };
 
@@ -51,7 +45,7 @@ const BookWindow: React.FC = () => {
           />
           <button
             className={`mt-11 bg-primary-blue w-max px-6 py-3 rounded text-black-100 ${
-              isFetching ? "cursor-wait" : "cursor-pointer"
+              books.isFetching ? "cursor-wait" : "cursor-pointer"
             }`}
             onClick={handleBookRequest.bind(this, searchText)}
           >
@@ -61,17 +55,20 @@ const BookWindow: React.FC = () => {
         {/* horizontal divider */}
         <div className='mt-11 w-full border-t border-black-85' />
         {/* List of results */}
-        {apiError && <p className='text-red-100 text-xl'>{apiError}</p>}
+        {books.errorMessage && (
+          <p className='text-red-100 text-xl'>{books.errorMessage}</p>
+        )}
         <div className='mt-14'>
-          {searchResults.length > 0 ? (
+          {books.booksList.length > 0 ? (
             <div className='flex-col gap-9'>
               <div className='flex flex-col md:flex-row justify-between items-start'>
                 <h5 className='text-xl text-black-12'>
-                  We have found {searchResults.length} books for “{searchTerm}”
+                  We have found {books.booksList.length} books for “
+                  {books.searchTerm}”
                 </h5>
               </div>
               <div className='grid grid-cols-3 gap-x-8 mt-9 gap-y-5'>
-                {searchResults.map((result) => (
+                {books.booksList.map((result) => (
                   <BookOverview
                     key={result.id}
                     id={result.id}
@@ -81,7 +78,9 @@ const BookWindow: React.FC = () => {
               </div>
             </div>
           ) : (
-            <>{isFetching ? <p>Loading...</p> : <p>No results found!</p>}</>
+            <>
+              {books.isFetching ? <p>Loading...</p> : <p>No results found!</p>}
+            </>
           )}
         </div>
       </div>
@@ -89,4 +88,14 @@ const BookWindow: React.FC = () => {
   );
 };
 
-export default BookWindow;
+const mapStateToProps = (state: RootState) => ({
+  books: state.books,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  fetchBooksListStart: (searchTerm: string) =>
+    dispatch(fetchBooksListStart(searchTerm)),
+  setSearchTerm: (searchTerm: string) => dispatch(setSearchTerm(searchTerm)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookWindow);

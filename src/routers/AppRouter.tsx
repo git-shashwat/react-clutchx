@@ -1,8 +1,8 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import "../App.css";
-import BookOverview from "../components/BookOverview/BookOverview";
+import BookDetails from "../components/BookDetails/BookDetails";
 import BookWindow from "../components/BookWindow/BookWindow";
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
@@ -11,10 +11,10 @@ function AppRouter() {
   return (
     <Router>
       <Header />
-      <Routes>
-        <Route path='/' element={<BookWindow />} />
-        {/* <Route path='/books/:id' element={<BookOverview />} /> */}
-      </Routes>
+      <Switch>
+        <Route path='/' exact component={BookWindow} />
+        <Route path='/books/:id' component={BookDetails} />
+      </Switch>
       <Footer />
     </Router>
   );

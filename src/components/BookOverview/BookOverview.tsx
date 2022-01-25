@@ -6,8 +6,8 @@ type BookOverviewProps = Pick<Book, "volumeInfo" | "id">;
 
 const BookOverview: React.FC<BookOverviewProps> = ({ volumeInfo, id }) => {
   return (
-    <Link to={`books/${id}`}>
-      <div className='px-4 py-5 flex flex-col justify-center items-center bg-black-95 cursor-pointer'>
+    <Link to={`/books/${id}`}>
+      <div className='px-4 py-5 h-full flex flex-col justify-center items-center bg-black-95 cursor-pointer'>
         <img
           src={volumeInfo?.imageLinks?.smallThumbnail}
           className='justify-center mb-4'
@@ -17,7 +17,9 @@ const BookOverview: React.FC<BookOverviewProps> = ({ volumeInfo, id }) => {
           {volumeInfo.title}
         </p>
         <p className='text-black-12 text-center'>{volumeInfo.authors}</p>
-        <p className='text-black-12 text-center'>{volumeInfo.publishedDate}</p>
+        <p className='text-black-12 text-center text-sm'>
+          {volumeInfo.publishedDate}
+        </p>
       </div>
     </Link>
   );
