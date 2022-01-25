@@ -26,7 +26,7 @@ const BookWindow: React.FC<IBookWindowProps> = ({
 
   return (
     <div className='md:px-40 md:pb-20 md:w-full md:table bg-black-98'>
-      <div className='flex flex-col px-8 py-4 md:px-48 md:py-16 md:mt-8 bg-black-100 shadow-inner rounded-lg text-left shadow-black-95'>
+      <div className='flex flex-col px-8 py-4 lg:px-48 lg:py-16 lg:mt-8 bg-black-100 shadow-inner rounded-lg text-left shadow-black-95'>
         <h1 className='font-semibold text-4xl tracking-tight text-black-12 mb-4'>
           Jumbotail Library
         </h1>
@@ -67,7 +67,7 @@ const BookWindow: React.FC<IBookWindowProps> = ({
                   {books.searchTerm}”
                 </h5>
               </div>
-              <div className='grid grid-cols-3 gap-x-8 mt-9 gap-y-5'>
+              <div className='flex flex-col lg:grid grid-cols-12 lg:grid-cols-3 lg:gap-x-8 mt-9 gap-y-5'>
                 {books.booksList.map((result) => (
                   <BookOverview
                     key={result.id}
